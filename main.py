@@ -1,6 +1,5 @@
 import ibm_db, logging, sys, os
 import pandas as pd
-import numpy as np
 
 ## Logging configuration
 logging.basicConfig(filename = 'debug.txt', level = logging.DEBUG, format = '%(levelname)s - %(asctime)s - %(message)s')
@@ -104,8 +103,35 @@ def fn_db_table_creation():
         logging.error('Table tb_test3 already exists or the query has an error.')
 
 
+def show_student():
+    sql = 'SELECT * FROM tb_student'
+    stmt = ibm_db.exec_immediate(conn, sql)
+    dictonary = ibm_db.fetch_assoc(stmt)
+    while (dictonary) != False:
+        students['ID'].append(dictonary['ID'])
+        students['F_NAME'].append(dictonary['F_NAME'])
+        students['L_NAME'].append(dictonary['L_NAME'])
+        dictonary = ibm_db.fetch_assoc(stmt)
+    student_df = pd.DataFrame(students)
+    print(student_df.loc[:, ['F_NAME', 'L_NAME']])
+    
+
+
 
 fn_db_table_creation()
-#Data Frame Structure
+
+students = {'ID': [], 'F_NAME': [], 'L_NAME': []}
+opcao = input('Escolha uma opção: \n1 - Acessar como aluno/responsavel. \n2 - Acessar como professor. \n3 - Sair \nDigite: ')
+
+if opcao == '1':
+    show_student()
+elif opcao == '2':
+    print('Prof escolhido.')
+elif opcao == '3':
+    sys.exit()
+elif opcao == 'adm':
+    print('Welcome adm')
+else:
+    print('Opção invalida')
 
 logging.debug('End program. \n\n')
