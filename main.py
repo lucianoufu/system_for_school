@@ -166,6 +166,16 @@ def fn_adm_options():
         fn_insert('student')
     elif opcao == '2':
         fn_delete('student')
+    elif opcao == '3':
+        fn_update('student')
+    elif opcao == '4':
+        fn_insert('teacher')
+    elif opcao == '5':
+        fn_delete('teacher')
+    elif opcao == '6':
+        fn_update('teacher')
+    else:
+        print('Opção invalida.')
 
 def fn_insert(name):
     if name == 'student':
@@ -236,9 +246,62 @@ def fn_delete(name):
         else:
             print('Opção invalida.')
 
+def fn_update(name):
+    if name == 'student':
+        name_pt = 'Aluno'
+    else:
+        name_pt = 'Professor'
 
+    while True:
+        id_db = input('Digite o id do {}: '.format(name_pt))
+        sql_select = 'SELECT * FROM tb_{} WHERE id = {}'.format(name, id_db)
+        stmt = ibm_db.exec_immediate(conn, sql_select)
+        old_values = ibm_db.fetch_tuple(stmt)
+        sql_select = 'SELECT * FROM tb_{} WHERE id = {}'.format(name, id_db)
+        stmt = ibm_db.exec_immediate(conn, sql_select)
+        tuple_select = ibm_db.fetch_tuple(stmt)
 
+        id_db = input('Digite o novo id: {} -> (enter para manter o id): '.format(tuple_select[0]))
+        if id_db == '':
+            id_db = old_values[0]
+        f_name = input('Digite o novo primeiro nome: {} -> (enter para manter o primeiro nome): '.format(tuple_select[1]))
+        if f_name == '':
+            f_name = old_values[1]
+        l_name = input('Digite o novo sobrenome: {} -> (enter para manter o sobrenome): '.format(tuple_select[2]))
+        if l_name == '':
+            l_name = old_values[2]
+        if name == 'student':
+            clas_s = input('Digite a nova classe: {} -> (enter para manter a classe): '.format(tuple_select[3]))
+            if clas_s == '':
+                clas_s = old_values[3]
+            password = input('Digite a nova senha: {} -> (enter para manter a mesma senha): '.format(tuple_select[4]))
+            if password == '':
+                password = old_values[4]
+            sql = '''UPDATE tb_{} 
+            SET id = {}
+            ,f_name = '{}'
+            ,l_name = '{}'
+            ,class = '{}'
+            ,password = '{}' 
+            WHERE id = {}'''.format(name, id_db, f_name, l_name, clas_s, password, id_db)
+        else:
+            sql = '''UPDATE tb_{} 
+            SET id = {}
+            ,f_name = '{}'
+            ,l_name = '{}'
+            WHERE id = {}'''.format(name, id_db, f_name, l_name, id_db)
 
+        try:
+            stmt = ibm_db.exec_immediate(conn, sql)
+            print('Valor atualizado com sucesso.\n\n')
+            if name == 'student':
+                logging.debug('Values update tb_{} {} -> ({}, {}, {}, {}, {})'.format(name, old_values, id_db, f_name, l_name, clas_s, password))
+            else:
+                logging.debug('Values update tb_{} {} -> ({}, {}, {})'.format(name, old_values, id_db, f_name, l_name))
+            break
+        except:
+            print('Valor não atualizado.')
+            logging.error('Table tb_{} not update.'.format(name))
 
 fn_db_table_creation()
 
