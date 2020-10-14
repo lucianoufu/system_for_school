@@ -5,8 +5,8 @@ import ibm_db, logging, sys, os
 logging.basicConfig(filename = 'debug.txt', level = logging.DEBUG, format = '%(levelname)s - %(asctime)s - %(message)s')
 logging.debug('Begin program.')
 
-logging.info('Data base connection:')
 ## Data base creadential's
+logging.info('Data base connection:')
 dsn_driver   = "{IBM DB2 ODBC DRIVER}"
 dsn_database = "BLUDB"
 dsn_hostname = "dashdb-txn-sbox-yp-dal09-08.services.dal.bluemix.net"
@@ -195,21 +195,47 @@ def fn_insert(name):
         logging.error('Value ({}, {}, {}, {},{}); not insert into tb_{}.'.format(id_db, f_name, l_name, clas_s, password, name))
 
 def fn_delete(name):
+    #Teste para comentário
     if name == 'student':
         name_pt = 'Aluno'
     else:
         name_pt = 'Professor'
+    
+    while True:
+        opcao = input('Escolha uma opção: \n1 - Deletar pelo id. \n2 - Deletar pelo nome. \n3 - Voltar ao menu. \nDigite: ')
+        if opcao == '1':
+            try:
+                id_db = input('Digite o id do {}: '.format(name_pt))
+                sql_select = 'SELECT * FROM tb_{} WHERE id = {}'.format(name, id_db)
+                sql = 'DELETE FROM tb_{} WHERE id = {}'.format(name, id_db)
+                stmt = ibm_db.exec_immediate(conn, sql_select)
+                tuple_select = ibm_db.fetch_tuple(stmt)
+                stmt = ibm_db.exec_immediate(conn, sql)
+                logging.debug('Value deleted from tb_{}!! Value: {}'.format(name, tuple_select))
+                print('Valor deletado com sucesso\n\n')
+                break
+            except:
+                logging.error('Id {} not deleted from tb_{}'.format(id_db, name))
+                print('Valor não deletado!\n')
+        elif opcao == '2':
+            try:
+                f_name = input('Digite o primeiro nome: ')
+                l_name = input('Digite o sobrenome: ')
+                sql = "DELETE FROM tb_{} WHERE f_name = '{}' and l_name = '{}'".format(name, f_name, l_name)
+                sql_select = "SELECT * FROM tb_{} where f_name = '{}' and l_name = '{}'".format(name, f_name, l_name)
+                stmt = ibm_db.exec_immediate(conn, sql_select)
+                tuple_select = ibm_db.fetch_tuple(stmt)
+                print('Valor deletado com sucesso\n\n')
+                logging.debug('Value deleted from tb_{}!! Value: {}'.format(name, tuple_select))
+                break
+            except:
+                print('Valor não deletado \n')
+                logging.erro('Value with f_name = {} and l_name {} not deleted from tb_{}.'.format(f_name, l_name, name))
+        elif opcao == '3':
+            break
+        else:
+            print('Opção invalida.')
 
-    id_db = input('Digite o id do {}'.format(name_pt))
-    sql = '''DELETE FROM tb_{}
-    WHERE id = {}'''.format(name, id_db)
-    try:
-        stmt = ibm_db.exec_immediate(conn, sql)
-        print('Valor deletado com sucesso.')
-        logging.debug('Value deleted')
-    except:
-        print('Valor não deletado.')
-        logging.error('Value not deleted')
 
 
 
@@ -217,17 +243,19 @@ def fn_delete(name):
 fn_db_table_creation()
 
 students = {'ID': [], 'F_NAME': [], 'L_NAME': []}
-opcao = input('Escolha uma opção: \n1 - Acessar como name/responsavel. \n2 - Acessar como professor. \n3 - Sair \nDigite: ')
+while True:
+    opcao = input('Escolha uma opção: \n1 - Acessar como name/responsavel. \n2 - Acessar como professor. \n3 - Sair \nDigite: ')
 
-if opcao == '1':
-    show_student()
-elif opcao == '2':
-    print('Prof escolhido.')
-elif opcao == '3':
-    sys.exit()
-elif opcao == 'adm':
-    fn_adm_options()
-else:
-    print('Opção invalida')
+    if opcao == '1':
+        show_student()
+    elif opcao == '2':
+        print('Prof escolhido.')
+    elif opcao == '3':
+        logging.debug('End program. \n\n')
+        sys.exit()
+    elif opcao == 'adm':
+        fn_adm_options()
+    else:
+        print('Opção invalida')
 
 logging.debug('End program. \n\n')
