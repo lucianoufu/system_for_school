@@ -178,3 +178,116 @@ ERROR - 2020-10-11 21:40:15,051 - Table tb_test3 already exists or the query has
 DEBUG - 2020-10-11 21:40:16,547 - End program. 
 
 
+DEBUG - 2020-10-13 13:06:53,947 - Begin program.
+INFO - 2020-10-13 13:06:53,984 - Data base connection:
+DEBUG - 2020-10-13 13:06:57,496 - Connection to database: BLUDB as user on host nsj92075
+DEBUG - 2020-10-13 13:06:58,223 - Table tb_student created.
+ERROR - 2020-10-13 13:06:58,223 - Table tb_parent alreadt exists or the query has an error.
+DEBUG - 2020-10-13 13:06:58,481 - Table tb_test1 created.
+DEBUG - 2020-10-13 13:06:58,693 - Table tb_test2 created.
+DEBUG - 2020-10-13 13:06:58,909 - Table tb_test3 created.
+DEBUG - 2020-10-13 23:15:26,480 - Begin program.
+INFO - 2020-10-13 23:15:26,570 - Data base connection:
+DEBUG - 2020-10-13 23:15:28,264 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-13 23:15:28,472 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-13 23:15:28,472 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-13 23:15:28,632 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-13 23:15:28,873 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-13 23:15:29,074 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-13 23:15:44,994 - End program. 
+
+
+DEBUG - 2020-10-13 23:15:55,917 - Begin program.
+INFO - 2020-10-13 23:15:55,918 - Data base connection:
+DEBUG - 2020-10-13 23:15:57,172 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-13 23:15:57,332 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-13 23:15:57,332 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-13 23:15:57,490 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-13 23:15:57,648 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-13 23:15:57,806 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-13 23:16:00,829 - End program. 
+
+
+DEBUG - 2020-10-13 23:16:08,418 - Begin program.
+INFO - 2020-10-13 23:16:08,419 - Data base connection:
+DEBUG - 2020-10-13 23:16:09,240 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-13 23:16:09,416 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-13 23:16:09,417 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-13 23:16:09,581 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-13 23:16:09,739 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-13 23:16:09,898 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-13 23:16:11,997 - End program. 
+
+
+DEBUG - 2020-10-13 23:40:56,173 - Begin program.
+INFO - 2020-10-13 23:40:56,190 - Data base connection:
+DEBUG - 2020-10-13 23:40:57,634 - Connection to database: BLUDB as user on host nsj92075
+DEBUG - 2020-10-13 23:40:57,934 - Table tb_student created.
+ERROR - 2020-10-13 23:40:57,935 - Table tb_parent alreadt exists or the query has an error.
+DEBUG - 2020-10-13 23:40:58,157 - Table tb_test1 created.
+DEBUG - 2020-10-13 23:40:58,382 - Table tb_test2 created.
+DEBUG - 2020-10-13 23:40:58,638 - Table tb_test3 created.
+ERROR - 2020-10-13 23:41:34,565 - Value (1, Luciano, Soares Nascimento, 3ºB, teste123); not insert.
+DEBUG - 2020-10-13 23:41:34,566 - End program. 
+
+
+DEBUG - 2020-10-13 23:50:27,815 - Begin program.
+INFO - 2020-10-13 23:50:27,815 - Data base connection:
+DEBUG - 2020-10-13 23:50:29,034 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-13 23:50:29,238 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-13 23:50:29,238 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-13 23:50:29,436 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-13 23:50:29,638 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-13 23:50:29,837 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-13 23:50:54,651 - Value (3, Lucas, Santos, 1ºA, teste123); insert with sucess.
+DEBUG - 2020-10-13 23:50:54,651 - End program. 
+
+
+DEBUG - 2020-10-13 23:51:45,179 - Begin program.
+INFO - 2020-10-13 23:51:45,179 - Data base connection:
+DEBUG - 2020-10-13 23:51:46,508 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-13 23:51:46,710 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-13 23:51:46,710 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-13 23:51:46,909 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-13 23:51:47,070 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-13 23:51:47,231 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-13 23:52:14,706 - Value (4, Marcelo, Filho, 4ºC, testeabc); insert into tb_student.
+DEBUG - 2020-10-13 23:52:14,706 - End program. 
+
+
+DEBUG - 2020-10-14 00:13:47,019 - Begin program.
+INFO - 2020-10-14 00:13:47,019 - Data base connection:
+DEBUG - 2020-10-14 00:13:48,337 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-14 00:13:48,540 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-14 00:13:48,540 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-14 00:13:48,738 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-14 00:13:48,939 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-14 00:13:49,140 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-14 00:14:02,204 - Begin program.
+INFO - 2020-10-14 00:14:02,204 - Data base connection:
+DEBUG - 2020-10-14 00:14:02,889 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-14 00:14:03,190 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-14 00:14:03,190 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-14 00:14:03,389 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-14 00:14:03,590 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-14 00:14:03,791 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-14 00:22:28,535 - Begin program.
+INFO - 2020-10-14 00:22:28,536 - Data base connection:
+DEBUG - 2020-10-14 00:22:30,433 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-14 00:22:30,724 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-14 00:22:30,724 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-14 00:22:30,973 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-14 00:22:31,135 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-14 00:22:31,374 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-14 00:23:25,528 - Begin program.
+INFO - 2020-10-14 00:23:25,528 - Data base connection:
+DEBUG - 2020-10-14 00:23:26,770 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-14 00:23:26,934 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-14 00:23:26,934 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-14 00:23:27,170 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-14 00:23:27,333 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-14 00:23:27,493 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-14 00:23:49,950 - Value (5, Gieovane, Alves, 3ºA, teste123); insert into tb_student.
+DEBUG - 2020-10-14 00:23:49,950 - End program. 
+
+
