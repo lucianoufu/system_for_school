@@ -39,40 +39,45 @@ def fn_db_table_creation():
         ,password                  VARCHAR(20)
     );'''
 
-    #create_query_parent = '''CREATE TABLE tb_parent
-    #(
-    #    id            INTEGER
-    #    ,f_name       VARCHAR(30) NOT NULL
-    #    ,l_name       VARCHAR(30) NOT NULL
-    #    ,address      VARCHAR(20) NOT NULL
-    #    ,phone_number VARCHAR(12) NOT NULL
-    #    ,id_son       INTEGER
-    #    ,FOREIGN KEY (id_son) REFERENCES tb_student(id)
-    #);'''
+    create_query_teacher = '''CREATE TABLE tb_teacher
+    (
+        id INTEGER PRIMARY KEY NOT NULL
+        ,f_name VARCHAR(30)
+        ,l_name VARCHAR(30)
+    )'''
 
     create_query_test1 = '''CREATE TABLE tb_test1
     (
         id_student         INTEGER
+        ,id_teacher        INTEGER
+        ,discipline        VARCHAR(30)
         ,note              NUMERIC(2,1) NOT NULL
         ,date_application  TIMESTAMP    NOT NULL
         ,class             NUMERIC(2,1)
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
+        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id_teacher)
     );'''
 
     create_query_test2 = '''CREATE TABLE tb_test2
     (
         id_student        INTEGER
+        ,id_teacher       INTEGER
+        ,discipline       VARCHAR(30)
         ,note             NUMERIC(2,1) NOT NULL
         ,date_application TIMESTAMP    NOT NULL
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
+        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id_teacher)
     );'''
 
     create_query_test3 = '''CREATE TABLE tb_test3
     (
         id_student        INTEGER
+        ,id_teacher       INTEGER
+        ,discipline       VARCHAR(30)
         ,note             NUMERIC(2,1) NOT NULL
         ,date_application TIMESTAMP    NOT NULL
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
+        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id_teacher)
     );'''
 
     try:
@@ -159,13 +164,15 @@ def fn_adm_options():
     opcao = input('\n\nEscolha uma opção: \n1 - Inserir aluno. \n2 - Deletar aluno. \n3 - Atualizar dados de um aluno. \n4 - Inserir professor. \n5 - Deletar professor \n6 - Atualizar professor. \nDigite: ')
     if opcao == '1':
         fn_insert('student')
+    elif opcao == '2':
+        fn_delete('student')
 
 def fn_insert(name):
     if name == 'student':
         name_pt = 'aluno'
     elif name == 'teacher':
         name_pt = 'professor'
-    id_student = input('Digite o id do {}: '.format(name_pt))
+    id_db = input('Digite o id do {}: '.format(name_pt))
     f_name = input('Digite o nome do {}: '.format(name_pt))
     l_name = input('Digite o sobrenome do {}: '.format(name_pt))
     clas_s = input('Digite a classe do {}: '.format(name_pt))
@@ -178,14 +185,32 @@ def fn_insert(name):
     ,password
     )
     VALUES
-    ('{}', '{}', '{}', '{}', '{}');'''.format(id_student, f_name, l_name, clas_s, password)
+    ('{}', '{}', '{}', '{}', '{}');'''.format(id_db, f_name, l_name, clas_s, password)
     
     try:
         stmt = ibm_db.exec_immediate(conn, sql)
-        logging.debug('Value (' + id_student + ', ' + f_name + ', ' + l_name + ', ' + clas_s + ', ' + password + '); insert into tb_student.')
+        logging.debug('Value ({}, {}, {}, {},{}); insert into tb_{}.'.format(id_db, f_name, l_name, clas_s, password, name))
     except:
         print('Valor não inserido.')
-        logging.error('Value (' + id_student + ', ' + f_name + ', ' + l_name + ', ' + clas_s + ', ' + password + '); not insert into tb_student.')
+        logging.error('Value ({}, {}, {}, {},{}); not insert into tb_{}.'.format(id_db, f_name, l_name, clas_s, password, name))
+
+def fn_delete(name):
+    if name == 'student':
+        name_pt = 'Aluno'
+    else:
+        name_pt = 'Professor'
+
+    id_db = input('Digite o id do {}'.format(name_pt))
+    sql = '''DELETE FROM tb_{}
+    WHERE id = {}'''.format(name, id_db)
+    try:
+        stmt = ibm_db.exec_immediate(conn, sql)
+        print('Valor deletado com sucesso.')
+        logging.debug('Value deleted')
+    except:
+        print('Valor não deletado.')
+        logging.error('Value not deleted')
+
 
 
 

@@ -291,3 +291,15 @@ DEBUG - 2020-10-14 00:23:49,950 - Value (5, Gieovane, Alves, 3ºA, teste123); in
 DEBUG - 2020-10-14 00:23:49,950 - End program. 
 
 
+DEBUG - 2020-10-14 12:50:44,407 - Begin program.
+INFO - 2020-10-14 12:50:44,420 - Data base connection:
+DEBUG - 2020-10-14 12:51:03,449 - Connection to database: BLUDB as user on host nsj92075
+ERROR - 2020-10-14 12:51:03,773 - Table tb_student already exists or the query has an error
+ERROR - 2020-10-14 12:51:03,774 - Table tb_parent alreadt exists or the query has an error.
+ERROR - 2020-10-14 12:51:04,007 - Table tb_test1 already exists or the query has an error.
+ERROR - 2020-10-14 12:51:04,167 - Table tb_test2 already exists or the query has an error.
+ERROR - 2020-10-14 12:51:04,325 - Table tb_test3 already exists or the query has an error.
+DEBUG - 2020-10-14 12:52:00,808 - Value deleted
+DEBUG - 2020-10-14 12:52:00,808 - End program. 
+
+
