@@ -1,3 +1,36 @@
+#############################################################################################################################################################################################
+#
+#
+# Main.py - This program was developed to schools, were his allows students to see their notes, teacher to launch their notes, and an adimin, to add new students and new teachers
+#
+#
+# Author: Luciano Soares
+#
+#
+# Purpose: This program was create by me to train the connection between a database and a python program
+#
+#
+# Usage: * Studant: If you are a student, this program is very simple, all you need to do is make sure that your is cadastrado in the database of your shcool.
+#                   If you are cadastrado, you are able to use this program. In the main page, type 1 for student, next type your first name, last name, and password.
+#                   After that, your notes will apper on the screen.
+#
+#        *Teacher: If you are a teacher, this is simple for you to use. In the main page, type 2 for teacher, type your first name, last name, and password. After that you will 
+#                  have the options to add notes to your students.
+#
+#        *Adimin: If you are the adm, you can add, update, and delete student and teacher. To acess this functions, in the main page you need to type adm, and the options of adm will 
+#                 apper in the screen.
+#
+#
+# File format: debug.txt - Store all the Logging of all program.
+#
+#
+# Error handling:
+# 1 - In the function fn_teacher_options, the option 4 not return to the main menu, instead return to the function fn_loging.
+#
+#
+#############################################################################################################################################################################################
+
+
 import ibm_db, logging, sys, os
 
 
@@ -30,6 +63,14 @@ except:
     logging.critical('Unable to connect {} on host {}'.format(dsn_database, dsn_hostname))
 
 def fn_db_table_creation():
+#########################################################################################################################################################################
+#
+#
+# fn_db_table_creation -- Create all table that the program will use. If the table are already created, the program will not create those table and will not cracsh.
+#
+#
+#########################################################################################################################################################################
+
     create_query_student = '''CREATE TABLE tb_student
     (
         id     INTEGER PRIMARY KEY NOT NULL
@@ -114,6 +155,18 @@ def fn_db_table_creation():
         logging.error('Table tb_test3 already exists or the query has an error.')
 
 def fn_loging(name):
+###################################################################    
+#
+#
+# fn_logging -- Allows the user to make logging in the database.
+#
+#
+# Parameters
+#
+# name -- The name of the user, student or techer
+#
+# 
+###################################################################
     print()
     while True:
         f_name = input('Digite seu nome: ').title()
@@ -131,6 +184,18 @@ def fn_loging(name):
             fn_teacher_options(tuple_sql[0])
 
 def fn_show_notes(id_db):
+##########################################################################################
+#
+#
+# fn_show_notes -- Show all notes of the student, based on the information of the login
+#
+#
+# Parameters
+#
+# id_db -- The id of the student.
+#
+# 
+##########################################################################################
     sql = '''SELECT s.f_name as studant_name
     ,t.f_name as teacher_name
     ,p1.note as p1_note
@@ -169,6 +234,17 @@ def fn_show_notes(id_db):
         tuple_sql = ibm_db.fetch_tuple(stmt)
             
 def fn_teacher_options(id_db_teacher):
+########################################################################################
+#
+#
+# fn_teacher_options -- Shows the options that the professor have to do in the program
+#
+#
+# Parameters:
+# id_db_teacher -- The id of the teacher, based on the login.
+#
+# 
+########################################################################################
     opcao = input('Escolha uma opção: 1 - Lançar notas. 2 - Voltar ao menu. \nDigite: ')
     if opcao == '1':
         discipline    = input('Digite o nome da disciplina: ')
@@ -189,6 +265,20 @@ def fn_teacher_options(id_db_teacher):
         print('Opcao invalida')
 
 def fn_send_notes(test, id_db_teacher, discipline, clas_s):
+###################################################################    
+#
+#
+# fn_send_notes -- Function that allow the teacher to add notes in the database.
+#
+#
+# Parameters
+# test          -- The number of the test, test 1, test2, ...
+# id_db_teacher -- Id of the teacher
+# discipline    -- Name of the discipline
+# clas_s        -- The number/name/sigle of the class.
+#
+# 
+###################################################################
     while True:
         date = input('Digite o dia que a prova foi aplicada: ')
         f_name        = input('Digite o nome do aluno: ')
@@ -207,6 +297,13 @@ def fn_send_notes(test, id_db_teacher, discipline, clas_s):
     print('Nota lançada com sucesso')
 
 def fn_adm_options():
+###################################################################    
+#
+#
+# fn_adm -- Show the options for the adm user
+#
+# 
+###################################################################
     opcao = input('\n\nEscolha uma opção: \n1 - Inserir aluno. \n2 - Deletar aluno. \n3 - Atualizar dados de um aluno. \n4 - Inserir professor. \n5 - Deletar professor \n6 - Atualizar professor. \nDigite: ')
     if opcao == '1':
         fn_insert('student')
@@ -224,6 +321,18 @@ def fn_adm_options():
         print('Opção invalida.')
 
 def fn_insert(name):
+###################################################################    
+#
+#
+# fn_insert -- Allow the adimin to add values on the table tb_student or the table tb_teacher
+#
+#
+# Parameters
+#
+# name -- The name of the user, student or techer
+#
+# 
+###################################################################
     if name == 'student':
         name_pt = 'aluno'
     elif name == 'teacher':
@@ -273,6 +382,18 @@ def fn_insert(name):
             logging.error('Value ({}, {}, {}); not insert into tb_{}.'.format(id_db, f_name, l_name, name))
 
 def fn_delete(name):
+###################################################################    
+#
+#
+# fn_delete -- Allow the adimin to delete values on the table tb_student or the table tb_teacher
+#
+#
+# Parameters
+#
+# name -- The name of the user, student or techer
+#
+# 
+###################################################################
     #Teste para comentário
     if name == 'student':
         name_pt = 'Aluno'
@@ -315,6 +436,18 @@ def fn_delete(name):
             print('Opção invalida.')
 
 def fn_update(name):
+###################################################################    
+#
+#
+# fn_update -- Allow the adimin to update values on the table tb_student or the table tb_teacher
+#
+#
+# Parameters
+#
+# name -- The name of the user, student or techer
+#
+# 
+###################################################################
     if name == 'student':
         name_pt = 'Aluno'
     else:
