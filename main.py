@@ -52,7 +52,7 @@ def fn_db_table_creation():
         id_student         INTEGER
         ,id_teacher        INTEGER
         ,discipline        VARCHAR(30)
-        ,note              NUMERIC(2,1) NOT NULL
+        ,note              NUMERIC(3,1) NOT NULL
         ,date_application  TIMESTAMP    NOT NULL
         ,class             VARCHAR(10)
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
@@ -64,7 +64,7 @@ def fn_db_table_creation():
         id_student         INTEGER
         ,id_teacher        INTEGER
         ,discipline        VARCHAR(30)
-        ,note              NUMERIC(2,1) NOT NULL
+        ,note              NUMERIC(3,1) NOT NULL
         ,date_application  TIMESTAMP    NOT NULL
         ,class             VARCHAR(10)
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
@@ -76,7 +76,7 @@ def fn_db_table_creation():
         id_student         INTEGER
         ,id_teacher        INTEGER
         ,discipline        VARCHAR(30)
-        ,note              NUMERIC(2,1) NOT NULL
+        ,note              NUMERIC(3,1) NOT NULL
         ,date_application  TIMESTAMP    NOT NULL
         ,class             VARCHAR(10)
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
@@ -113,20 +113,22 @@ def fn_db_table_creation():
     except:
         logging.error('Table tb_test3 already exists or the query has an error.')
 
-def fn_student_loging():
+def fn_loging(name):
     print()
     while True:
-        f_name = input('Digite o nome do aluno: ').title()
-        l_name = input('Digite o seu sobrenome: ').title()
+        f_name = input('Digite seu nome: ').title()
+        l_name = input('Digite seu sobrenome: ').title()
         password = input('Digite a sua senha: ')
-        sql = "SELECT * FROM tb_student WHERE f_name = '{}' and l_name = '{}' and password = '{}'".format(f_name, l_name, password)
+        sql = "SELECT * FROM tb_{} WHERE f_name = '{}' and l_name = '{}' and password = '{}'".format(name, f_name, l_name, password)
         stmt = ibm_db.exec_immediate(conn, sql)
         tuple_sql = ibm_db.fetch_tuple(stmt)
         if tuple_sql == False:
             print('Usuário ou senha incorreto.')
-        else:
+        elif name == 'student':
             fn_show_notes(tuple_sql[0])
             break
+        elif name == 'teacher':
+            fn_teacher_options(tuple_sql[0])
 
 def fn_show_notes(id_db):
     sql = '''SELECT s.f_name as studant_name
@@ -166,11 +168,9 @@ def fn_show_notes(id_db):
         print('\nAluno: {} \nProfessor: {} \nNota P1: {} classe: {} \nNota P2: {}, classe: {} \nNota P3: {}, classe: {}.\n'.format(tuple_sql[0], tuple_sql[1], tuple_sql[2], tuple_sql[3], tuple_sql[4], tuple_sql[5], tuple_sql[6], tuple_sql[7]))
         tuple_sql = ibm_db.fetch_tuple(stmt)
             
-def fn_teacher_options():
-    opcao = input('Escolha uma opção: 1 - Lançar notas. \nDigite: ')
+def fn_teacher_options(id_db_teacher):
+    opcao = input('Escolha uma opção: 1 - Lançar notas. 2 - Voltar ao menu. \nDigite: ')
     if opcao == '1':
-        #while True:
-        id_db_teacher = input('Professor, digite o seu id: ')
         discipline    = input('Digite o nome da disciplina: ')
         clas_s = input('Digite a classe no qual a prova foi aplicada: ')
 
@@ -183,7 +183,10 @@ def fn_teacher_options():
             elif opcao == '3':
                 fn_send_notes(3, id_db_teacher, discipline, clas_s)
             elif opcao == '4':
+                #>>>>> Opção não está retornando ao menu <<<<<<<<<<<<
                 break
+    else:
+        print('Opcao invalida')
 
 def fn_send_notes(test, id_db_teacher, discipline, clas_s):
     while True:
@@ -228,9 +231,9 @@ def fn_insert(name):
     id_db = input('Digite o id do {}: '.format(name_pt))
     f_name = input('Digite o nome do {}: '.format(name_pt))
     l_name = input('Digite o sobrenome do {}: '.format(name_pt))
+    password = input('Digite a senha do {}: '.format(name_pt))
     if name == 'student':
         clas_s = input('Digite a classe do {}: '.format(name_pt))
-        password = input('Digite a senha do {}: '.format(name_pt))
         sql = '''INSERT INTO ''' + 'tb_' + name + ''' 
         (
         id
@@ -247,9 +250,10 @@ def fn_insert(name):
         id
         ,f_name
         ,l_name
+        ,password
         )
         VALUES
-        ({}, '{}', '{}');'''.format(name, id_db, f_name, l_name)
+        ({}, '{}', '{}', '{}');'''.format(name, id_db, f_name, l_name, password)
     
     
     stmt = ibm_db.exec_immediate(conn, sql)
@@ -259,7 +263,7 @@ def fn_insert(name):
             print('{} inserido com sucesso.\n\n'.format(name_pt))
         else:
             print('{} inserido com sucesso.\n\n'.format(name_pt))
-            logging.debug('Value ({}, {}, {}); insert into tb_{}.'.format(id_db, f_name, l_name, name))
+            logging.debug('Value ({}, {}, {}, {}); insert into tb_{}.'.format(id_db, f_name, l_name, password, name))
     except:
         print('{} não inserido.\n'.format(name_pt))
         if name == 'student':
@@ -374,9 +378,9 @@ while True:
     opcao = input('Escolha uma opção: \n1 - Acessar como aluno/responsavel. \n2 - Acessar como professor. \n3 - Sair \nDigite: ')
 
     if opcao == '1':
-        fn_student_loging()
+        fn_loging('student')
     elif opcao == '2':
-        fn_teacher_options()
+        fn_loging('teacher')
     elif opcao == '3':
         logging.debug('End program. \n\n')
         sys.exit()
