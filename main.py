@@ -42,8 +42,9 @@ def fn_db_table_creation():
     create_query_teacher = '''CREATE TABLE tb_teacher
     (
         id INTEGER PRIMARY KEY NOT NULL
-        ,f_name VARCHAR(30)
-        ,l_name VARCHAR(30)
+        ,f_name   VARCHAR(30)
+        ,l_name   VARCHAR(30)
+        ,password VARCHAR(30)
     )'''
 
     create_query_test1 = '''CREATE TABLE tb_test1
@@ -165,7 +166,42 @@ def fn_show_notes(id_db):
         print('\nAluno: {} \nProfessor: {} \nNota P1: {} classe: {} \nNota P2: {}, classe: {} \nNota P3: {}, classe: {}.\n'.format(tuple_sql[0], tuple_sql[1], tuple_sql[2], tuple_sql[3], tuple_sql[4], tuple_sql[5], tuple_sql[6], tuple_sql[7]))
         tuple_sql = ibm_db.fetch_tuple(stmt)
             
+def fn_teacher_options():
+    opcao = input('Escolha uma opção: 1 - Lançar notas. \nDigite: ')
+    if opcao == '1':
+        #while True:
+        id_db_teacher = input('Professor, digite o seu id: ')
+        discipline    = input('Digite o nome da disciplina: ')
+        clas_s = input('Digite a classe no qual a prova foi aplicada: ')
 
+        while True:
+            opcao = input('1 - Lançar notas da 1ª prova. \n2 - Lançar notas da 2ª prova. \n3 - Lançar notas da 3ª prova \n4 - Voltar ao menu. \nDigite: ')
+            if opcao == '1':
+                fn_send_notes(1, id_db_teacher, discipline, clas_s)
+            elif opcao == '2':
+                fn_send_notes(2, id_db_teacher, discipline, clas_s)
+            elif opcao == '3':
+                fn_send_notes(3, id_db_teacher, discipline, clas_s)
+            elif opcao == '4':
+                break
+
+def fn_send_notes(test, id_db_teacher, discipline, clas_s):
+    while True:
+        date = input('Digite o dia que a prova foi aplicada: ')
+        f_name        = input('Digite o nome do aluno: ')
+        l_name        = input('Digite o sobrenome do aluno: ')
+        sql = "SELECT * FROM tb_student WHERE f_name = '{}' AND l_name = '{}'".format(f_name, l_name)
+        stmt = ibm_db.exec_immediate(conn, sql)
+        tuple_sql = ibm_db.fetch_tuple(stmt)
+        if tuple_sql == False:
+            print('Aluno invalido:')
+        else:
+            id_db = tuple_sql[0]
+            break
+    note = input('Digite a nota da {}ª prova: '.format(test))
+    sql = "INSERT INTO tb_test{} VALUES ({}, {},'{}' ,{}, '{}', '{}');".format(test, id_db, id_db_teacher, discipline, note, date, clas_s)
+    stmt = ibm_db.exec_immediate(conn, sql)
+    print('Nota lançada com sucesso')
 
 def fn_adm_options():
     opcao = input('\n\nEscolha uma opção: \n1 - Inserir aluno. \n2 - Deletar aluno. \n3 - Atualizar dados de um aluno. \n4 - Inserir professor. \n5 - Deletar professor \n6 - Atualizar professor. \nDigite: ')
@@ -340,7 +376,7 @@ while True:
     if opcao == '1':
         fn_student_loging()
     elif opcao == '2':
-        print('Prof escolhido.')
+        fn_teacher_options()
     elif opcao == '3':
         logging.debug('End program. \n\n')
         sys.exit()
