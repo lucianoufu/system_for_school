@@ -60,26 +60,26 @@ def fn_db_table_creation():
 
     create_query_test2 = '''CREATE TABLE tb_test2
     (
-        id_student        INTEGER
-        ,id_teacher       INTEGER
-        ,discipline       VARCHAR(30)
-        ,note             NUMERIC(2,1) NOT NULL
-        ,date_application TIMESTAMP    NOT NULL
+        id_student         INTEGER
+        ,id_teacher        INTEGER
+        ,discipline        VARCHAR(30)
+        ,note              NUMERIC(2,1) NOT NULL
+        ,date_application  TIMESTAMP    NOT NULL
         ,class             VARCHAR(10)
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
-        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id_teacher)
+        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id)
     );'''
 
     create_query_test3 = '''CREATE TABLE tb_test3
     (
-        id_student        INTEGER
-        ,id_teacher       INTEGER
-        ,discipline       VARCHAR(30)
-        ,note             NUMERIC(2,1) NOT NULL
-        ,date_application TIMESTAMP    NOT NULL
-        ,class            VARCHAR(10)
+        id_student         INTEGER
+        ,id_teacher        INTEGER
+        ,discipline        VARCHAR(30)
+        ,note              NUMERIC(2,1) NOT NULL
+        ,date_application  TIMESTAMP    NOT NULL
+        ,class             VARCHAR(10)
         ,FOREIGN KEY (id_student) REFERENCES tb_student(id)
-        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id_teacher)
+        ,FOREIGN KEY (id_teacher) REFERENCES tb_teacher(id)        
     );'''
 
     try:
@@ -121,28 +121,49 @@ def fn_student_loging():
         sql = "SELECT * FROM tb_student WHERE f_name = '{}' and l_name = '{}' and password = '{}'".format(f_name, l_name, password)
         stmt = ibm_db.exec_immediate(conn, sql)
         tuple_sql = ibm_db.fetch_tuple(stmt)
-        if dictonary == ():
+        if tuple_sql == False:
             print('Usuário ou senha incorreto.')
         else:
-            fn_shown_notes(tuple_sql[0])
+            fn_show_notes(tuple_sql[0])
+            break
 
 def fn_show_notes(id_db):
-    sql = '''SELECT s.f_name
-    ,t.f_name
-    ,p1.note
+    sql = '''SELECT s.f_name as studant_name
+    ,t.f_name as teacher_name
+    ,p1.note as p1_note
+    ,p1.class as class
+    ,p2.note as p2_note
+    ,p2.class as class
+    ,p3.note as p3_note
+    ,p3.class as class
     FROM 
     tb_student as s
     INNER JOIN
     (
-        tb_teacher as t INNER JOIN
-        tb_note1 as p1
-        ON t.id = p1.id_teacher
+        tb_test1 as p1
+        INNER JOIN 
+        (
+        	tb_test2 as p2 
+        	INNER JOIN 
+        	(
+        		tb_test3 as p3 
+        		INNER JOIN tb_teacher as t
+        		ON t.id = p3.id_teacher
+        	)
+        	ON p2.id_teacher = t.id
+        )
+        ON p1.id_teacher = t.id
     )
-    ON p1.id_student = s.id
-    '''
+    ON p1.id_student = s.id;
+
+    WHERE s.id = {}
+    ORDER BY p1.class DESC;
+    '''.format(id_db)
     stmt = ibm_db.exec_immediate(conn, sql)
     tuple_sql = ibm_db.fetch_tuple(stmt)
-    print('Aluno: {} \nProfessor: {} \nNota P1: {}'.format(tuple_sql[0], tuple_sql[1], tuple_sql[2]))
+    while tuple_sql != False:
+        print('\nAluno: {} \nProfessor: {} \nNota P1: {} classe: {} \nNota P2: {}, classe: {} \nNota P3: {}, classe: {}.\n'.format(tuple_sql[0], tuple_sql[1], tuple_sql[2], tuple_sql[3], tuple_sql[4], tuple_sql[5], tuple_sql[6], tuple_sql[7]))
+        tuple_sql = ibm_db.fetch_tuple(stmt)
             
 
 
